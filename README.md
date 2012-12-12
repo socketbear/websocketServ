@@ -1,4 +1,7 @@
-Web Socket Server Base Json
+Web Socket Server Base node.js
+
+Use Json type Communocation!
+Easy install, Easy Use Web Socket Server!
 
 Please, Read Manual.
 
