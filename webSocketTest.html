@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+	<title>WebSocket Test Page</title>
+	<script>
+	 
+	    var log = function(s) {
+	        console.log(s);
+	        if (document.readyState !== "complete") {
+	            log.buffer.push(s);
+	        } else {
+	            document.getElementById("output").innerHTML += (s + "\n")
+	        }
+	    }
+	    log.buffer = [];
+		
+	    //url!url!url!url!url!url!url!url!url!url!url!url!url!
+		url = "ws://localhost:9001";
+		//url!url!url!url!url!url!url!url!url!url!url!url!url!
+	    w = new WebSocket(url);
+	 
+	    w.onopen = function() {
+	        log("open");
+	        //w.send("test");
+			var json = JSON.stringify({ type:'login', data: 'smartlns' });
+			w.send(json);
+			log("open");
+	    }
+	 
+	    w.onmessage = function(e) {
+	        log(e.data);
+	    }
+	 
+	    w.onclose = function(e) {
+	        log("closed");
+	    }
+	 
+	    window.onload = function() {
+	        log(log.buffer.join("\n"));
+	        document.getElementById("sendButton").onclick = function() {
+	            console.log(document.getElementById("inputMessage").value);
+	            w.send(JSON.stringify({ type:'data', data: document.getElementById("inputMessage").value}));
+	        }
+			document.getElementById("HistoryButton").onclick = function() {
+	            w.send(JSON.stringify({ type:'history', data: ''}));
+	        }
+			document.getElementById("ClientsButton").onclick = function() {
+	            w.send(JSON.stringify({ type:'clients', data: ''}));
+	        }
+	    }
+	</script>
+	 
+	<input type="text" id="inputMessage" value="Hello, Web Socket!"><button id="sendButton">Send</button>
+	<button id="HistoryButton">history</button><button id="ClientsButton">clients</button>
+	<pre id="output"></pre>
+
+
